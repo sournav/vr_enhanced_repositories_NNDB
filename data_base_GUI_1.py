@@ -8,6 +8,7 @@ GIG THEM AGRICULTURALISTS
 SAVE_DIR="test_data"
 import urllib.request
 from tkinter import *
+import os
 def window0():
     def click():
         #data_links.txt is the location of your text file that has all of the
@@ -20,10 +21,14 @@ def window0():
         length=len(lines)
         while i<length:
             filename = SAVE_DIR+"/image"+str(i+1)+".jpg"
+            if (textentry4.get()=="1") and os.path.exists(filename):
+                i+=1
+                continue
+            
             urllib.request.urlretrieve(lines[i], filename)
             i+=1
             textentry4.delete(0, END)
-
+            
             textentry4.insert(0,str((i/length)*100))
     def click2():
         file = open(textentry.get(),'a')

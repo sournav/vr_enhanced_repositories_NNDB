@@ -9,6 +9,7 @@ SAVE_DIR="test_data"
 import urllib.request
 from tkinter import *
 import os
+import threading
 def window0():
     def click():
         #data_links.txt is the location of your text file that has all of the
@@ -17,19 +18,43 @@ def window0():
         SAVE_DIR=textentry2.get()
         file = open(textentry.get(),'r')
         lines = file.read().splitlines()
-        i=0
         length=len(lines)
-        while i<length:
-            filename = SAVE_DIR+"/image"+str(i+1)+".jpg"
-            if (textentry4.get()=="1") and os.path.exists(filename):
-                i+=1
-                continue
-            
-            urllib.request.urlretrieve(lines[i], filename)
-            i+=1
-            textentry4.delete(0, END)
-            
-            textentry4.insert(0,str((i/length)*100))
+        third=round(length/3)
+        twothird=(third*2)
+        i=0
+        def Splitter(i,third):
+                while i<third:
+                    filename = SAVE_DIR+"/image"+str(i+1)+".jpg"
+                    if (textentry4.get()=="1") and os.path.exists(filename):
+                        i+=1
+                        continue
+                    
+                    urllib.request.urlretrieve(lines[i], filename)
+                    i+=1
+                    textentry4.delete(0, END)
+                    
+                    textentry4.insert(0,str((i/length)*100))
+        def FirstFunction():
+                Splitter(i,third)
+        def SecondFunction():
+                Splitter(third,twothird)
+        def ThirdFunction():
+                Splitter(twothird,length)
+##        FirstFunction()
+##        SecondFunction()
+##        ThirdFunction()
+        
+        threads = []
+        t = threading.Thread(target=FirstFunction)
+        threads.append(t)
+        t.start()
+        t1 = threading.Thread(target=SecondFunction)
+        threads.append(t1)
+        t1.start()
+        t2 = threading.Thread(target=ThirdFunction)
+        threads.append(t2)
+        t2.start()
+                
     def click2():
         file = open(textentry.get(),'a')
         file.write("\n"+textentry3.get())

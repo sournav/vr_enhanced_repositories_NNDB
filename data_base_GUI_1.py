@@ -72,6 +72,7 @@ def window0():
     Label(window0,text="Image URL To Add:").place(x=10,y=125)
     textentry3 = Entry(window0,width=20, bg="white")
     textentry3.place(x=10,y=150)
+    Label(window0,text="Mode/Percent:").place(x=200,y=80)
     textentry4 = Entry(window0,width=3, bg="white")
     textentry4.place(x=200,y=100)
     button1=Button(window0,text="SUBMIT",width=6, command=click)
